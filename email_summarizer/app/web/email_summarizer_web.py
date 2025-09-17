@@ -18,17 +18,24 @@ if "summary_time" in st.session_state:
     st.sidebar.markdown(f"**Summary Time:** {st.session_state['summary_time']:.2f}s")
 st.sidebar.header("Email List")
 
+
+target_email = st.sidebar.text_input(
+    "Target mailbox (UPN)",
+    value=(st.session_state.get("target_email")),
+    help="输入要读取的目标邮箱，例如 alfredzou@thebig1.biz"
+)
+
 if "emails" not in st.session_state:
     st.session_state["emails"] = []
 
-def fetch_emails():
-    client = ExchangeClient()
+def fetch_emails(target_email: str):
+    client = ExchangeClient(target_email=target_email)
     emails = client.fetch_all_emails()
-    # emials = client.fetch_today_emails() # TODO: switch to today's emails only
+    # emials = client.fetch_today_emails(target_mailbox=target_email) # TODO: switch to today's emails only
     st.session_state["emails"] = emails
 
 if st.sidebar.button("Fetch Today's Emails"):
-    fetch_emails()
+    fetch_emails(target_email=target_email)
 
 emails = st.session_state.get("emails", [])
 
