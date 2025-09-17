@@ -1,7 +1,8 @@
 from email_summarizer.app.utils.exchange_client import ExchangeClient
 
 if __name__ == "__main__":
-    client = ExchangeClient()
+    target_email = "alfredzou@thebig1.biz"
+    client = ExchangeClient(target_email=target_email)
     # Test fetch_today_emails
     emails_today = client.fetch_today_emails()
     import json

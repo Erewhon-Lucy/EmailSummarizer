@@ -1,17 +1,17 @@
-from exchangelib import Credentials, Account, DELEGATE, Configuration, Message, EWSTimeZone, UTC
+from exchangelib import Credentials, Account, DELEGATE, Configuration, Message, EWSTimeZone, UTC, NTLM
 from email_summarizer.app.config import Config
 from datetime import datetime, timedelta
 from typing import List
 from markitdown import MarkItDown
 class ExchangeClient:
-    def __init__(self):
+    def __init__(self, target_email: str = None):
         creds = Credentials(
             username=Config.EXCHANGE_USERNAME,
             password=Config.EXCHANGE_PASSWORD
         )
-        config = Configuration(server=Config.EXCHANGE_SERVER, credentials=creds)
+        config = Configuration(server=Config.EXCHANGE_SERVER, credentials=creds, auth_type=NTLM)
         self.account = Account(
-            primary_smtp_address=Config.EXCHANGE_EMAIL,
+            primary_smtp_address=target_email,
             config=config,
             autodiscover=False,
             access_type=DELEGATE
@@ -68,7 +68,7 @@ class ExchangeClient:
         Fetch emails received in the last 24 hours.
         """
         now = datetime.now(self.tz)
-        start = now - timedelta(hours=72)
+        start = now - timedelta(hours=24)
         return self.fetch_emails(since=start, until=now)
 
     def fetch_all_emails(self) -> List[dict]:

@@ -2,7 +2,7 @@ results_dir: "./results"
 llm_provider: "azureopenai"
 deep_think_llm: "o1"
 quick_think_llm: "gpt-4.1"
-backend_url: "https://angzou-openai-eastus2.openai.azure.com/"
+backend_url: "https://tryaifoundry.openai.azure.com/"
 api_version: "2024-12-01-preview"
 temperature: 0.0
 online_tools: true

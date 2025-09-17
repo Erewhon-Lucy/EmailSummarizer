@@ -24,6 +24,7 @@ if "emails" not in st.session_state:
 def fetch_emails():
     client = ExchangeClient()
     emails = client.fetch_all_emails()
+    # emials = client.fetch_today_emails() # TODO: switch to today's emails only
     st.session_state["emails"] = emails
 
 if st.sidebar.button("Fetch Today's Emails"):
